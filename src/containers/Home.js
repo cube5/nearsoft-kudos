@@ -115,9 +115,8 @@ class Content extends Component {
     try {
       this.setState({ saving: true });
 
-      const { from, to, message } = this.state;
-      const result = saveKudo({ from, to, message });
-      console.log(result);
+      const { from, to, message, imgSrc } = this.state;
+      const result = saveKudo({ from, to, message, imgSrc });
       this.setState({ saving: false, success: true });
     } catch (err) {}
   };

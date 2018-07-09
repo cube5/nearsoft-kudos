@@ -1,36 +1,38 @@
 import React, { Component } from "react";
+import dayjs from "dayjs";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import { withStyles } from "@material-ui/core";
 
 import { fetchKudos } from "../api";
 import Container from "../components/Container";
-import Kudo from "../components/Kudo";
-import { withStyles, Typography } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    // justifyContent: "space-around",
-    // overflow: "hidden",
+    justifyContent: "space-around",
+    overflow: "hidden",
     backgroundColor: theme.palette.background.paper
   },
   gridList: {
-    // width: 900,
-    // height: 450,
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)"
+    width: "100%",
+    height: "100%"
   },
   titleBar: {
     background:
       "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
       "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
   },
+  img: {
+    height: "auto"
+  },
   icon: {
-    color: "white"
+    color: "rgba(255, 255, 255, 0.54)"
   }
 });
 
@@ -46,53 +48,45 @@ class Kudos extends Component {
     this.setState({ kudos });
   }
 
-  handleMouseHover = (e, kudoId) => {
-    this.setState({ hoveringId: kudoId });
-  };
-
   render() {
     const { classes } = this.props;
-    const { kudos, hoveringId } = this.state;
+    const { kudos } = this.state;
 
     return (
       <Container>
         <div className={classes.root}>
-          <Typography variant={"title"}>Existing Kudos</Typography>
           <GridList
             className={classes.gridList}
-            cellHeight={300}
-            spacing={1}
             cols={3}
+            spacing={1}
+            cellHeight={"auto"}
           >
-            {kudos.map(kudo => (
-              <GridListTile
-                key={kudo._id}
-                cols={1}
-                rows={2}
-                onMouseEnter={e => this.handleMouseHover(e, kudo._id)}
-                onMouseLeave={e => this.handleMouseHover(e, null)}
-              >
-                <Kudo
-                  header={"Nice!"}
-                  from={kudo.from}
-                  to={kudo.to}
-                  message={kudo.message}
-                />
-                {hoveringId === kudo._id && (
-                  <GridListTileBar
-                    title={`Created at: ${new Date(kudo.createdAt)}`}
-                    titlePosition="top"
-                    actionIcon={
-                      <IconButton className={classes.icon}>
-                        <StarBorderIcon />
-                      </IconButton>
+            <GridListTile key="Subheader" cols={3} style={{ height: "auto" }}>
+              <ListSubheader component="div">Saved Kudos</ListSubheader>
+            </GridListTile>
+            {kudos.map(
+              kudo =>
+                kudo.imgSrc && (
+                  <GridListTile key={kudo._id} cols={1} rows={1}>
+                    <img src={kudo.imgSrc} className={classes.img} />
+                    {
+                      <GridListTileBar
+                        title={`From: ${kudo.from} To: ${kudo.to}`}
+                        subtitle={`Created at: ${dayjs(+kudo.createdAt).format(
+                          "DD/MM/YYYY HH:mm:ss"
+                        )}`}
+                        titlePosition="top"
+                        actionIcon={
+                          <IconButton className={classes.icon}>
+                            <StarBorderIcon />
+                          </IconButton>
+                        }
+                        className={null}
+                      />
                     }
-                    actionPosition="left"
-                    className={null}
-                  />
-                )}
-              </GridListTile>
-            ))}
+                  </GridListTile>
+                )
+            )}
           </GridList>
         </div>
       </Container>

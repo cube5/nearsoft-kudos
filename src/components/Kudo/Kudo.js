@@ -17,7 +17,7 @@ const Styled = createStyled(theme => ({
   },
   header: {
     backgroundColor: theme.palette.primary.main,
-    borderRadius: "4px 4px 0px 0px",
+    // borderRadius: "4px 4px 0px 0px",
     padding: 40
   },
   paperContainer: {
