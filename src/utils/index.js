@@ -14,3 +14,13 @@ export function createStyled(styles, options) {
   };
   return withStyles(styles, options)(Styled);
 }
+
+/**
+ * Returns millimeters converted to pixels.
+ * 1 mm = 3.7795275591 px
+ * @see https://www.unitconverters.net/typography/millimeter-to-pixel-x.htm
+ * @param {number} millimeters
+ */
+export function millimetersToPixels(millimeters = 0) {
+  return millimeters * 3.7795275591;
+}

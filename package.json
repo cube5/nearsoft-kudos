@@ -17,7 +17,9 @@
     "react-dom": "^16.4.1",
     "react-draggable": "^3.0.5",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "retina-dom-to-image": "^2.5.6",
+    "typeface-permanent-marker": "0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,6 +28,7 @@
     "test:ci": "CI=true npm t",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "deploy": "now --public --name nearsoft-kudos ./build",
+    "postdeploy": "now alias nearsoft-kudos",
     "predeploy": "npm run build",
     "eject": "react-scripts eject"
   },

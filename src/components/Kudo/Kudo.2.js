@@ -64,11 +64,17 @@ class Kudo extends Component {
               <Typography variant="display2">{header}</Typography>
             </div>*/}
             <div className={classes.paperContainer}>
-              <div className={classes.paperContent}>
+              <div className={classes.messageContainer}>
+                {/*<TextField
+                  name="from"
+                  placeholder="Me"
+                  value={from}
+                  onChange={this.handleChange}
+                />*/}
                 <textarea
                   rows="10"
                   name="message"
-                  placeholder="Start typing"
+                  placeholder="Here goes the message"
                   value={message}
                   className={classes.message}
                   style={{
@@ -76,45 +82,12 @@ class Kudo extends Component {
                   }}
                   onChange={this.handleChange}
                 />
-              </div>
-            </div>
-
-            <Divider />
-
-            <div className={classes.meta}>
-              <div>
-                <Typography
-                  component="span"
-                  className={classes.metaLabel}
-                  style={{ display: "inline-block", marginRight: 10 }}
-                >
-                  from:
-                </Typography>
-                <TextField
-                  name="from"
-                  placeholder="Me"
-                  value={from}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div>
-                <Typography
-                  component="span"
-                  className={classes.metaLabel}
-                  style={{
-                    display: "inline-block",
-                    marginRight: 10,
-                    textAlign: "right"
-                  }}
-                >
-                  to:
-                </Typography>
-                <TextField
+                {/*<TextField
                   name="to"
                   placeholder="You"
                   value={to}
                   onChange={this.handleChange}
-                />
+                />*/}
               </div>
             </div>
           </div>

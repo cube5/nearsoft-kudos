@@ -18,14 +18,25 @@ import { saveKudo } from "../api";
 const styles = theme => ({
   buttonContainer: {
     position: "relative",
-    textAlign: "center"
+    textAlign: "center",
+    [theme.breakpoints.up("xs")]: {
+      marginTop: 45
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: 10
+    }
   },
   button: {
-    width: "70%",
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: theme.spacing.unit,
-    marginDown: theme.spacing.unit
+    marginDown: theme.spacing.unit,
+    [theme.breakpoints.up("xs")]: {
+      width: "50%"
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%"
+    }
   },
   buttonProgress: {
     color: green[500],
@@ -118,7 +129,9 @@ class Content extends Component {
       const { from, to, message, imgSrc } = this.state;
       const result = saveKudo({ from, to, message, imgSrc });
       this.setState({ saving: false, success: true });
-    } catch (err) {}
+    } catch (err) {
+      console.error("wtf, something went wrong!", err);
+    }
   };
 
   render() {
@@ -160,7 +173,7 @@ class Content extends Component {
           <Button
             size="large"
             color="secondary"
-            variant="contained"
+            variant="outlined"
             className={`${classes.button} ${
               success ? classes.buttonSuccess : null
             }`}
