@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "../components/Container";
 import Kudo from "../components/Kudo";
 import { saveKudo } from "../api";
+import { realWorldKudoHeight, realWorldKudoWidth } from "../constants";
 
 const styles = theme => ({
   buttonContainer: {
@@ -59,6 +60,12 @@ const styles = theme => ({
   progress: {
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2
+  },
+  previewContainer: {
+    width: `${realWorldKudoWidth}mm`,
+    height: `${realWorldKudoHeight}mm`,
+    maxWidth: `${realWorldKudoWidth}mm`,
+    maxHeight: `${realWorldKudoHeight}mm`
   }
 });
 
@@ -158,11 +165,11 @@ class Content extends Component {
           <Grid item>
             <Fragment>
               <Typography variant="display2" gutterBottom>
-                Live Preview
+                Preview
                 {loading && <CircularProgress color="secondary" />}
               </Typography>
               <Paper>
-                <div style={{ textAlign: "center" }}>
+                <div className={classes.previewContainer}>
                   <img src={imgSrc} alt="preview" />
                 </div>
               </Paper>

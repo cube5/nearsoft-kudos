@@ -1,1 +1,1 @@
-export { default } from "./Kudo.2";
+export { default } from "./Kudo";

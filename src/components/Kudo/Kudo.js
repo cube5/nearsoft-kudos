@@ -1,28 +1,19 @@
 import "typeface-permanent-marker";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Divider from "@material-ui/core/Divider";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 
 import styles from "./styles";
 import { createStyled } from "../../utils";
-import DraggableImage from "../DraggableImage";
 
 const Styled = createStyled(styles);
 
 class Kudo extends Component {
   static propTypes = {
-    header: PropTypes.string,
     from: PropTypes.string,
     to: PropTypes.string,
     message: PropTypes.string,
     innerRef: PropTypes.any,
     onChange: PropTypes.func
-  };
-
-  static defaultProps = {
-    header: "Great Job!"
   };
 
   state = {
@@ -48,27 +39,27 @@ class Kudo extends Component {
   };
 
   render() {
-    const { innerRef, header, from, to, message, onChange } = this.props;
+    const { innerRef, from, to, message } = this.props;
 
     return (
       <Styled>
         {({ classes }) => (
           <div ref={innerRef} className={classes.root}>
-            {/*<DraggableImage
-                onStop={(e, data) => {
-                  const { from, to, message } = this.state;
-                  onChange(e, { from, to, message });
-                }}
-              />*/}
-            {/*<div className={classes.header}>
-              <Typography variant="display2">{header}</Typography>
-            </div>*/}
             <div className={classes.paperContainer}>
-              <div className={classes.paperContent}>
+              <div className={classes.messageContainer}>
+                <input
+                  value={to}
+                  placeholder="To"
+                  className={classes.to}
+                  style={{
+                    fontFamily: "'Permanent Marker', cursive"
+                  }}
+                  onChange={this.handleChange}
+                />
                 <textarea
                   rows="10"
                   name="message"
-                  placeholder="Start typing"
+                  placeholder="Here goes the message"
                   value={message}
                   className={classes.message}
                   style={{
@@ -76,43 +67,13 @@ class Kudo extends Component {
                   }}
                   onChange={this.handleChange}
                 />
-              </div>
-            </div>
-
-            <Divider />
-
-            <div className={classes.meta}>
-              <div>
-                <Typography
-                  component="span"
-                  className={classes.metaLabel}
-                  style={{ display: "inline-block", marginRight: 10 }}
-                >
-                  from:
-                </Typography>
-                <TextField
-                  name="from"
-                  placeholder="Me"
+                <input
                   value={from}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div>
-                <Typography
-                  component="span"
-                  className={classes.metaLabel}
+                  placeholder="From"
+                  className={classes.from}
                   style={{
-                    display: "inline-block",
-                    marginRight: 10,
-                    textAlign: "right"
+                    fontFamily: "'Permanent Marker', cursive"
                   }}
-                >
-                  to:
-                </Typography>
-                <TextField
-                  name="to"
-                  placeholder="You"
-                  value={to}
                   onChange={this.handleChange}
                 />
               </div>
