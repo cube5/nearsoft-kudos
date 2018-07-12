@@ -48,6 +48,8 @@ class Kudo extends Component {
             <div className={classes.paperContainer}>
               <div className={classes.messageContainer}>
                 <input
+                  type="text"
+                  name="to"
                   value={to}
                   placeholder="To"
                   className={classes.to}
@@ -68,6 +70,8 @@ class Kudo extends Component {
                   onChange={this.handleChange}
                 />
                 <input
+                  type="text"
+                  name="from"
                   value={from}
                   placeholder="From"
                   className={classes.from}

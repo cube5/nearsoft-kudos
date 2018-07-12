@@ -1,6 +1,7 @@
 import React, { Component, createRef, Fragment } from "react";
 import PropTypes from "prop-types";
 import domtoimage from "dom-to-image-chrome-fix";
+// import domtoimage from "retina-dom-to-image";
 import fileSaver from "file-saver";
 import { withStyles } from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
@@ -134,7 +135,9 @@ class Content extends Component {
       this.setState({ saving: true });
 
       const { from, to, message, imgSrc } = this.state;
-      const result = saveKudo({ from, to, message, imgSrc });
+      console.log("wtf", { from, to, message, imgSrc });
+      const result = await saveKudo({ from, to, message, imgSrc });
+      console.log("result save", result);
       this.setState({ saving: false, success: true });
     } catch (err) {
       console.error("wtf, something went wrong!", err);
@@ -170,7 +173,7 @@ class Content extends Component {
               </Typography>
               <Paper>
                 <div className={classes.previewContainer}>
-                  <img src={imgSrc} alt="preview" />
+                  <img src={imgSrc} alt="preview" width="100%" />
                 </div>
               </Paper>
             </Fragment>

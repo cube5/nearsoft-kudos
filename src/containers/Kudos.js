@@ -3,30 +3,26 @@ import dayjs from "dayjs";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import { withStyles } from "@material-ui/core";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { withStyles, Typography } from "@material-ui/core";
+import green from "@material-ui/core/colors/green";
 
 import { fetchKudos } from "../api";
 import Container from "../components/Container";
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+    // display: "flex",
+    // flexWrap: "wrap",
+    // justifyContent: "space-around",
+    overflow: "hidden"
   },
   gridList: {
     width: "100%",
-    height: "100%"
-  },
-  titleBar: {
-    background:
-      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
+    height: "100%",
+    backgroundColor: theme.palette.background.paper
   },
   img: {
     height: "auto"
@@ -39,7 +35,7 @@ const styles = theme => ({
 class Kudos extends Component {
   state = {
     kudos: [],
-    hoveringId: null
+    kudosToPrint: [] // ids only
   };
 
   async componentDidMount() {
@@ -48,46 +44,74 @@ class Kudos extends Component {
     this.setState({ kudos });
   }
 
+  handleAddClick = (e, id) => {
+    this.setState(state => {
+      const { kudosToPrint } = state;
+      if (kudosToPrint.includes(id)) {
+        state.kudosToPrint = kudosToPrint.filter(_id => _id !== id);
+      } else {
+        kudosToPrint.push(id);
+      }
+      return state;
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    const { kudos } = this.state;
+    const { kudos, kudosToPrint } = this.state;
 
     return (
       <Container>
         <div className={classes.root}>
-          <GridList
-            className={classes.gridList}
-            cols={3}
-            spacing={1}
-            cellHeight={"auto"}
-          >
-            <GridListTile key="Subheader" cols={3} style={{ height: "auto" }}>
-              <ListSubheader component="div">Saved Kudos</ListSubheader>
-            </GridListTile>
-            {kudos.map(
-              kudo =>
-                kudo.imgSrc && (
-                  <GridListTile key={kudo._id} cols={1} rows={1}>
-                    <img src={kudo.imgSrc} className={classes.img} />
-                    {
-                      <GridListTileBar
-                        title={`From: ${kudo.from} To: ${kudo.to}`}
-                        subtitle={`Created at: ${dayjs(+kudo.createdAt).format(
-                          "DD/MM/YYYY HH:mm:ss"
-                        )}`}
-                        titlePosition="top"
-                        actionIcon={
-                          <IconButton className={classes.icon}>
-                            <StarBorderIcon />
-                          </IconButton>
-                        }
-                        className={null}
-                      />
-                    }
-                  </GridListTile>
+          <Typography variant="display2" gutterBottom>
+            Created Kudos
+          </Typography>
+          <Container>
+            <GridList
+              cols={4}
+              spacing={4}
+              cellHeight={300}
+              className={classes.gridList}
+            >
+              {kudos.length === 0 ? (
+                <Typography variant="display1" gutterBottom>
+                  Kudos found: {kudos.length}
+                </Typography>
+              ) : (
+                kudos.map(
+                  kudo =>
+                    kudo.imgSrc && (
+                      <GridListTile key={kudo._id} cols={1} rows={1}>
+                        <img src={kudo.imgSrc} className={classes.img} />
+                        <GridListTileBar
+                          title={`${kudo.from} to ${kudo.to}`}
+                          subtitle={dayjs(+kudo.createdAt).format(
+                            "MMMM DD, YYYY"
+                          )}
+                          titlePosition="top"
+                          actionIcon={
+                            <IconButton
+                              className={classes.icon}
+                              onClick={e => this.handleAddClick(e, kudo._id)}
+                            >
+                              {kudosToPrint.includes(kudo._id) ? (
+                                <div style={{ color: green["500"] }}>
+                                  {kudosToPrint.findIndex(
+                                    id => kudo._id === id
+                                  ) + 1}
+                                </div>
+                              ) : (
+                                <AddCircleOutlineIcon />
+                              )}
+                            </IconButton>
+                          }
+                        />
+                      </GridListTile>
+                    )
                 )
-            )}
-          </GridList>
+              )}
+            </GridList>
+          </Container>
         </div>
       </Container>
     );

@@ -10,7 +10,6 @@ const unstyledInput = {
 
 export default theme => ({
   root: {
-    // margin: "0 auto",
     width: `${realWorldKudoWidth}mm`,
     height: `${realWorldKudoHeight}mm`,
     maxWidth: `${realWorldKudoWidth}mm`,
@@ -27,7 +26,7 @@ export default theme => ({
   },
   messageContainer: {
     position: "absolute",
-    top: 215,
+    top: 212,
     right: 11,
     bottom: 30,
     left: 11,
