@@ -4,7 +4,6 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import domtoimage from "dom-to-image-chrome-fix";
 // import domtoimage from "retina-dom-to-image";
-import fileSaver from "file-saver";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ShareIcon from "@material-ui/icons/Share";
@@ -63,16 +62,6 @@ class Content extends Component {
     }
   };
 
-  getImgBlob = async () => {
-    try {
-      const node = this.$kudo.current;
-      const blob = await domtoimage.toBlob(node);
-      return blob;
-    } catch (err) {
-      console.error("wtf, something went wrong getting the blob!", err);
-    }
-  };
-
   updatePreview = (e, data) => {
     clearTimeout(this.onChangeTimeoutId);
     this.setState({ loadingPreview: true });
@@ -81,15 +70,6 @@ class Content extends Component {
       const { from, to, message } = data;
       this.setState({ from, to, message, imgSrc, loadingPreview: false });
     }, 500);
-  };
-
-  exportToImage = async e => {
-    try {
-      const blob = await this.getImgBlob();
-      fileSaver.saveAs(blob, "kudo.png");
-    } catch (err) {
-      console.error("wtf, something went wrong!", err);
-    }
   };
 
   render() {
