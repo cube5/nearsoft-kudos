@@ -30,6 +30,8 @@ const styles = {
   `
 };
 
+const VERSION = require("../../package.json").version;
+
 class Header extends Component {
   state = {
     open: false
@@ -80,8 +82,13 @@ class Header extends Component {
             >
               <MenuIcon />
             </IconButton>
+
             <Typography variant="title" color="inherit" className={styles.flex}>
               Nearsoft Kudos
+            </Typography>
+
+            <Typography variant="caption" color="inherit">
+              v{VERSION}
             </Typography>
           </Toolbar>
         </AppBar>
