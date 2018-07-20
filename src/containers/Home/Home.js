@@ -21,14 +21,14 @@ const CREATE_KUDO = gql`
     $from: String!
     $to: String!
     $message: String!
-    $imgSrc: String!
+    $imgUrl: String!
   ) {
-    createKudo(from: $from, to: $to, message: $message, imgSrc: $imgSrc) {
+    createKudo(from: $from, to: $to, message: $message, imgUrl: $imgUrl) {
       _id
       from
       to
       message
-      imgSrc
+      imgUrl
       createdAt
     }
   }
@@ -43,20 +43,20 @@ class Content extends Component {
     from: "",
     to: "",
     message: "",
-    imgSrc: "",
+    imgUrl: "",
     loadingPreview: true
   };
 
   async componentDidMount() {
-    const imgSrc = await this.getImgSrc();
-    this.setState({ imgSrc, loadingPreview: false });
+    const imgUrl = await this.getImgUrl();
+    this.setState({ imgUrl, loadingPreview: false });
   }
 
-  getImgSrc = async () => {
+  getImgUrl = async () => {
     try {
       const node = this.$kudo.current;
-      const imgSrc = await domtoimage.toPng(node);
-      return imgSrc;
+      const imgUrl = await domtoimage.toPng(node);
+      return imgUrl;
     } catch (err) {
       console.error("wtf, something went wrong getting the img src!", err);
     }
@@ -66,15 +66,15 @@ class Content extends Component {
     clearTimeout(this.onChangeTimeoutId);
     this.setState({ loadingPreview: true });
     this.onChangeTimeoutId = setTimeout(async () => {
-      const imgSrc = await this.getImgSrc();
+      const imgUrl = await this.getImgUrl();
       const { from, to, message } = data;
-      this.setState({ from, to, message, imgSrc, loadingPreview: false });
+      this.setState({ from, to, message, imgUrl, loadingPreview: false });
     }, 500);
   };
 
   render() {
     const { classes } = this.props;
-    const { from, to, message, imgSrc, loadingPreview } = this.state;
+    const { from, to, message, imgUrl, loadingPreview } = this.state;
 
     return (
       <Container>
@@ -97,7 +97,7 @@ class Content extends Component {
               </Typography>
               <Paper>
                 <div className={classes.previewContainer}>
-                  <img src={imgSrc} alt="preview" width="100%" />
+                  <img src={imgUrl} alt="preview" width="100%" />
                 </div>
               </Paper>
             </Fragment>
@@ -118,7 +118,7 @@ class Content extends Component {
                       from,
                       to,
                       message,
-                      imgSrc
+                      imgUrl
                     }
                   });
                 }}

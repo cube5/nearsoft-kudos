@@ -2,10 +2,9 @@ import React, { Fragment } from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-// import deepOrange from "@material-ui/core/colors/deepOrange";
-// import blueGrey from "@material-ui/core/colors/blueGrey";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { BrowserRouter, Route } from "react-router-dom";
+import BrowserRouter from "react-router-dom/BrowserRouter";
+import Route from "react-router-dom/Route";
 
 import Header from "./components/Header";
 import Home from "./containers/Home";
@@ -19,10 +18,6 @@ const theme = createMuiTheme({
   palette: {
     type: "light"
   }
-  // palette: {
-  //   primary: deepOrange,
-  //   secondary: blueGrey
-  // }
 });
 
 export default () => (
@@ -33,12 +28,7 @@ export default () => (
           <CssBaseline />
           <Header />
           <Route exact path="/" component={Home} />
-          <Route
-            exact
-            path="/kudos"
-            component={Kudos}
-            // render={() => <div>Here go the kudos</div>}
-          />
+          <Route exact path="/kudos" component={Kudos} />
         </Fragment>
       </BrowserRouter>
     </MuiThemeProvider>

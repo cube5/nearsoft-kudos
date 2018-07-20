@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import dayjs from "dayjs";
-import { Query } from "react-apollo";
+import Query from "react-apollo/Query";
 import gql from "graphql-tag";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from "@material-ui/core/styles/withStyles";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import Grid from "@material-ui/core/Grid";
 import jsPDF from "jspdf";
@@ -23,7 +23,7 @@ const query = gql`
       from
       to
       message
-      imgSrc
+      imgUrl
       createdAt
     }
   }
@@ -86,7 +86,7 @@ class Kudos extends Component {
       this.currentY = this.isFirstRow ? 0 : realWorldKudoHeight;
 
       this.pdfDoc.addImage(
-        kudo.imgSrc,
+        kudo.imgUrl,
         "PNG",
         this.currentX,
         this.currentY,
@@ -113,12 +113,12 @@ class Kudos extends Component {
 
               if (error) {
                 return (
-                  <div>
+                  <Typography>
                     Sorry an error just happend, please try again
                     <span role="img" aria-label="sad face">
                       😢
                     </span>.
-                  </div>
+                  </Typography>
                 );
               }
 
@@ -144,9 +144,15 @@ class Kudos extends Component {
                           width: "100%"
                         }}
                       >
+                        {data.kudos.length === 0 && (
+                          <Typography variant="subheading" gutterBottom>
+                            No kudos found :/
+                          </Typography>
+                        )}
+
                         {data.kudos.map(
                           kudo =>
-                            kudo.imgSrc && (
+                            kudo.imgUrl && (
                               <Grid key={kudo._id} item sm={4} xs={6}>
                                 <ButtonBase
                                   className={classes.imageButton}
@@ -155,7 +161,7 @@ class Kudos extends Component {
                                   }
                                 >
                                   <img
-                                    src={kudo.imgSrc}
+                                    src={kudo.imgUrl}
                                     alt="kudo"
                                     width="100%"
                                     className={classes.image}
