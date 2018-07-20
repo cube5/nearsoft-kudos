@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+
 import CssBaseline from "@material-ui/core/CssBaseline";
 import BrowserRouter from "react-router-dom/BrowserRouter";
 import Route from "react-router-dom/Route";

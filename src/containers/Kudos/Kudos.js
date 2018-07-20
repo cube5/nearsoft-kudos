@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from "react";
 import dayjs from "dayjs";
-import Query from "react-apollo/Query";
+import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import Grid from "@material-ui/core/Grid";
 import jsPDF from "jspdf";
 
@@ -101,7 +100,7 @@ class Kudos extends Component {
   };
 
   render() {
-    const { classes, width } = this.props;
+    const { classes } = this.props;
     const { kudosToPrint, pdfUri } = this.state;
 
     return (
@@ -223,6 +222,4 @@ class Kudos extends Component {
   }
 }
 
-const WithStyles = withStyles(styles)(Kudos);
-
-export default withWidth()(WithStyles);
+export default withStyles(styles)(Kudos);
