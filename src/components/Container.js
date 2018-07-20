@@ -1,12 +1,14 @@
 import React from "react";
-import { css } from "emotion";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = {
-  container: css`
-    padding: 20px 30px;
-  `
+  container: {
+    padding: "20px 30px"
+  }
 };
 
-export default ({ className, children }) => (
-  <div className={`${styles.container} ${className || ""}`}>{children}</div>
+const Container = ({ classes, className, children }) => (
+  <div className={`${classes.container} ${className || ""}`}>{children}</div>
 );
+
+export default withStyles(styles)(Container);

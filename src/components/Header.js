@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { css } from "emotion";
 import AppBar from "@material-ui/core/AppBar";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,21 +12,22 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListIcon from "@material-ui/icons/List";
 import AddIcon from "@material-ui/icons/Add";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = {
-  root: css`
-    flex-grow: 1;
-  `,
-  flex: css`
-    flex: 1;
-  `,
-  drawerContent: css`
-    width: 250px;
-  `,
-  menuButton: css`
-    margin-left: -12px;
-    margin-right: 20px;
-  `
+  root: {
+    flexGrow: 1
+  },
+  flex: {
+    flex: 1
+  },
+  drawerContent: {
+    width: 250
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20
+  }
 };
 
 const VERSION = require("../../package.json").version;
@@ -42,10 +42,11 @@ class Header extends Component {
   close = () => this.setState({ open: false });
 
   render() {
+    const { classes } = this.props;
     const { open } = this.state;
 
     return (
-      <div className={styles.root}>
+      <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
             <Drawer open={open} onClose={this.close}>
@@ -54,7 +55,7 @@ class Header extends Component {
                 role="button"
                 onClick={this.close}
                 onKeyDown={this.close}
-                className={styles.drawerContent}
+                className={classes.drawerContent}
               >
                 <List component="nav">
                   <ListItem button component={Link} to="/">
@@ -77,13 +78,17 @@ class Header extends Component {
             <IconButton
               color="inherit"
               aria-label="Menu"
-              className={styles.menuButton}
+              className={classes.menuButton}
               onClick={this.open}
             >
               <MenuIcon />
             </IconButton>
 
-            <Typography variant="title" color="inherit" className={styles.flex}>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
               Nearsoft Kudos
             </Typography>
 
@@ -97,4 +102,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withStyles(styles)(Header);

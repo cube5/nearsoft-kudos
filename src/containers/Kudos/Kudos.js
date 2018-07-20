@@ -193,7 +193,7 @@ class Kudos extends Component {
                                         color: "rgba(255, 255, 255, 0.8)"
                                       }}
                                     >
-                                      {dayjs(+kudo.createdAt).format(
+                                      {dayjs(kudo.createdAt).format(
                                         "MMMM DD, YYYY"
                                       )}
                                     </Typography>

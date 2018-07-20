@@ -1,4 +1,4 @@
-import "typeface-permanent-marker";
+// import "typeface-permanent-marker";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
