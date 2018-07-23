@@ -5,7 +5,7 @@ export default theme => ({
     flexGrow: 1
   },
   grid: {
-    // minHeight: 450
+    minHeight: "80vh"
   },
   imageButton: {
     position: "relative",

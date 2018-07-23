@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import AddIcon from "@material-ui/icons/AddCircleOutline";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
@@ -174,14 +174,13 @@ class Kudos extends Component {
                                         ) + 1}
                                       </div>
                                     ) : (
-                                      <AddCircleOutlineIcon
-                                        className={classes.icon}
-                                      />
+                                      <AddIcon className={classes.icon} />
                                     )}
                                     <Typography
                                       style={{
                                         color: "rgba(255, 255, 255, 0.8)"
                                       }}
+                                      gutterBottom
                                     >
                                       {kudo.from} to {kudo.to}
                                     </Typography>
