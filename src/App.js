@@ -9,8 +9,8 @@ import BrowserRouter from "react-router-dom/BrowserRouter";
 import Route from "react-router-dom/Route";
 
 import Header from "./components/Header";
-import Home from "./containers/Home";
-import Kudos from "./containers/Kudos";
+import Loadable from "./components/Loadable";
+import ServiceWorkerNotifications from "./components/ServiceWorkerNotifications";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_ENDPOINT
@@ -22,6 +22,14 @@ const theme = createMuiTheme({
   }
 });
 
+const AsyncHome = Loadable({
+  loader: () => import("./containers/Home")
+});
+
+const AsyncKudos = Loadable({
+  loader: () => import("./containers/Kudos")
+});
+
 export default () => (
   <ApolloProvider client={client}>
     <MuiThemeProvider theme={theme}>
@@ -29,8 +37,9 @@ export default () => (
         <Fragment>
           <CssBaseline />
           <Header />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/kudos" component={Kudos} />
+          <Route exact path="/" component={AsyncHome} />
+          <Route exact path="/kudos" component={AsyncKudos} />
+          <ServiceWorkerNotifications />
         </Fragment>
       </BrowserRouter>
     </MuiThemeProvider>

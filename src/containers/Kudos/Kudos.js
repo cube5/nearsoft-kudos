@@ -59,14 +59,13 @@ class Kudos extends Component {
       const { kudosToPrint } = state;
 
       if (kudosToPrint.includes(kudo._id)) {
-        // state.kudosToPrint = kudosToPrint.filter(_id => _id !== kudo._id);
         this.resetValues();
         state.kudosToPrint = [];
         this.pdfDoc = new jsPDF("landscape");
       } else {
         kudosToPrint.push(kudo._id);
 
-        if (kudosToPrint.length > this.maxKudosPerPage) {
+        if (this.currentKudosOnPage.length > this.maxKudosPerPage) {
           this.pdfDoc.addPage();
           this.resetValues();
         }

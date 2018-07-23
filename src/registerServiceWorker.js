@@ -34,7 +34,7 @@ export default function register({ onContentAvailable, onContentCached }) {
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl);
+        checkValidServiceWorker(swUrl, { onContentAvailable, onContentCached });
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
@@ -87,7 +87,10 @@ function registerValidSW(swUrl, { onContentAvailable, onContentCached }) {
     });
 }
 
-function checkValidServiceWorker(swUrl) {
+function checkValidServiceWorker(
+  swUrl,
+  { onContentAvailable, onContentCached }
+) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then(response => {
@@ -104,7 +107,7 @@ function checkValidServiceWorker(swUrl) {
         });
       } else {
         // Service worker found. Proceed as normal.
-        registerValidSW(swUrl);
+        registerValidSW(swUrl, { onContentAvailable, onContentCached });
       }
     })
     .catch(() => {
