@@ -10,10 +10,10 @@ ReactDOM.render(<App />, document.getElementById("root"));
 registerServiceWorker({
   onContentAvailable: () => {
     // the application should show anotification saying "New content is available; please refresh."
-    document.dispatchEvent(new Event(SW_CONTENT_CACHED));
+    document.dispatchEvent(new Event(SW_CONTENT_AVAILABLE));
   },
   onContentCached: () => {
     // the application should show anotification saying "Content is cached for offline use."
-    document.dispatchEvent(new Event(SW_CONTENT_AVAILABLE));
+    document.dispatchEvent(new Event(SW_CONTENT_CACHED));
   }
 });
