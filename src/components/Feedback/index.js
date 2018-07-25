@@ -30,7 +30,7 @@ const styles = {
 };
 
 const SUBMIT_FEEDBACK = gql`
-  mutation createFeedback($message: String!, $rating: String!) {
+  mutation createFeedback($message: String!, $rating: Rating!) {
     createFeedback(message: $message, rating: $rating) {
       message
       rating
