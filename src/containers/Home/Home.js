@@ -2,8 +2,7 @@ import React, { Component, createRef, Fragment } from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import domtoimage from "dom-to-image-chrome-fix";
-// import domtoimage from "retina-dom-to-image";
+import domtoimage from "dom-to-image-chrome-fix-retina"; // custom fork from dom-to-image-chrome-fix
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ShareIcon from "@material-ui/icons/Share";
