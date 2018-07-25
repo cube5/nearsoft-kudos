@@ -10,8 +10,7 @@ export default ({ src, className }) => (
     height="100%"
     frameBorder="0"
     style={{
-      position: "relative",
-      zIndex: 999
+      position: "relative"
     }}
   />
 );

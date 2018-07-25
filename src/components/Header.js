@@ -13,6 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListIcon from "@material-ui/icons/List";
 import AddIcon from "@material-ui/icons/Add";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Feedback from "./Feedback/index";
 
 const styles = {
   root: {
@@ -91,6 +92,8 @@ class Header extends Component {
             >
               Nearsoft Kudos
             </Typography>
+
+            <Feedback />
 
             <Typography variant="caption" color="inherit">
               v{VERSION}
