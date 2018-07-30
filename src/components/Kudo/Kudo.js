@@ -52,9 +52,6 @@ class Kudo extends Component {
                   value={to}
                   placeholder="To"
                   className={classes.to}
-                  style={{
-                    fontFamily: "'Permanent Marker', cursive"
-                  }}
                   onChange={this.handleChange}
                 />
                 <textarea
@@ -63,9 +60,6 @@ class Kudo extends Component {
                   placeholder="Here goes the message"
                   value={message}
                   className={classes.message}
-                  style={{
-                    fontFamily: "'Permanent Marker', cursive"
-                  }}
                   onChange={this.handleChange}
                 />
                 <input
@@ -74,9 +68,6 @@ class Kudo extends Component {
                   value={from}
                   placeholder="From"
                   className={classes.from}
-                  style={{
-                    fontFamily: "'Permanent Marker', cursive"
-                  }}
                   onChange={this.handleChange}
                 />
               </div>

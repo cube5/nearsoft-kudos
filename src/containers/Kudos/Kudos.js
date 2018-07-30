@@ -28,30 +28,19 @@ const query = gql`
   }
 `;
 
-// default values
-const defaultIsFirstRow = true;
-const defaultCurrentKudosOnRow = 0;
-const defaultCurrentKudosOnPage = 0;
-
 class Kudos extends Component {
-  currentX = 0; // x coordinate to put the next kudo on the pdf.
-  currentY = 0; // y coordinate to put the next kudo on the pdf.
+  currentX = 0; // x coordinate to put the next kudo in the pdf.
+  currentY = 0; // y coordinate to put the next kudo in the pdf.
+  maxKudosPerRow = 4;
   maxKudosPerPage = 8;
   pdfDoc = new jsPDF("landscape");
 
-  isFirstRow = defaultIsFirstRow; // whether is current pages's first row or the second.
-  currentKudosOnRow = defaultCurrentKudosOnRow; // quantity of kudos on the current row.
-  currentKudosOnPage = defaultCurrentKudosOnPage; // quantity of kudos on the current page.
+  currentKudosInRow = 0; // quantity of kudos in the current row.
+  currentKudosInPage = 0; // quantity of kudos in the current page.
 
   state = {
     pdfUri: this.pdfDoc.output("bloburi"),
     kudosToPrint: [] // ids only.
-  };
-
-  resetValues = () => {
-    this.isFirstRow = defaultIsFirstRow;
-    this.currentKudosOnRow = defaultCurrentKudosOnRow;
-    this.currentKudosOnPage = defaultCurrentKudosOnPage;
   };
 
   handleAddToPrintClick = (e, kudo) => {
@@ -59,42 +48,49 @@ class Kudos extends Component {
       const { kudosToPrint } = state;
 
       if (kudosToPrint.includes(kudo._id)) {
-        this.resetValues();
         state.kudosToPrint = [];
+        this.currentKudosInRow = 0;
+        this.currentKudosInPage = 0;
         this.pdfDoc = new jsPDF("landscape");
+        return state;
       } else {
         kudosToPrint.push(kudo._id);
 
-        if (this.currentKudosOnPage.length > this.maxKudosPerPage) {
+        const isCurrentRowFull = this.currentKudosInRow >= this.maxKudosPerRow;
+        const isCurrentPageFull =
+          this.currentKudosInPage >= this.maxKudosPerPage;
+
+        if (isCurrentRowFull) {
+          this.currentKudosInRow = 0;
+        }
+
+        if (isCurrentPageFull) {
           this.pdfDoc.addPage();
-          this.resetValues();
+          this.currentKudosInRow = 0;
+          this.currentKudosInPage = 0;
         }
 
-        this.isFirstRow = this.currentKudosOnPage < 4;
+        const isFirstRow = this.currentKudosInPage < this.maxKudosPerRow;
 
-        if (this.currentKudosOnRow < 4) {
-          this.currentKudosOnRow++;
-          this.currentKudosOnPage++;
-        } else {
-          this.currentKudosOnRow = 1;
-        }
+        this.currentX = realWorldKudoWidth * this.currentKudosInRow;
+        this.currentY = isFirstRow ? 0 : realWorldKudoHeight;
+
+        this.pdfDoc.addImage(
+          kudo.imgUrl,
+          "PNG",
+          this.currentX,
+          this.currentY,
+          realWorldKudoWidth,
+          realWorldKudoHeight
+        );
+
+        state.pdfUri = this.pdfDoc.output("bloburi");
+
+        this.currentKudosInRow++;
+        this.currentKudosInPage++;
+
+        return state;
       }
-
-      this.currentX = realWorldKudoWidth * (this.currentKudosOnRow - 1);
-      this.currentY = this.isFirstRow ? 0 : realWorldKudoHeight;
-
-      this.pdfDoc.addImage(
-        kudo.imgUrl,
-        "PNG",
-        this.currentX,
-        this.currentY,
-        realWorldKudoWidth,
-        realWorldKudoHeight
-      );
-
-      state.pdfUri = this.pdfDoc.output("bloburi");
-
-      return state;
     });
   };
 

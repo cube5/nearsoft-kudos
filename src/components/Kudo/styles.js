@@ -5,7 +5,8 @@ const unstyledInput = {
   background: "transparent",
   border: 0,
   outline: 0,
-  textAlign: "center"
+  textAlign: "center",
+  fontFamily: "'Permanent Marker', cursive"
 };
 
 export default theme => ({
@@ -57,6 +58,7 @@ export default theme => ({
     boxSizing: "border-box",
     textAlign: "center",
     // zIndex: 1,
-    resize: "none"
+    resize: "none",
+    fontFamily: "'Permanent Marker', cursive"
   }
 });
