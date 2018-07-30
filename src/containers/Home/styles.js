@@ -33,6 +33,7 @@ export default theme => ({
     marginLeft: -12
   },
   buttonSuccess: {
+    color: "#fff",
     backgroundColor: green[500],
     "&:hover": {
       backgroundColor: green[700]

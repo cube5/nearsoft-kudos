@@ -6,11 +6,16 @@ import { Mutation } from "react-apollo";
 import domtoimage from "dom-to-image-chrome-fix-retina"; // custom fork from dom-to-image-chrome-fix
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import ShareIcon from "@material-ui/icons/Share";
+import CloudQueueIcon from "@material-ui/icons/CloudQueue";
+import CloudDoneIcon from "@material-ui/icons/CloudDone";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import ShareIcon from "@material-ui/icons/Share";
 
 import styles from "./styles";
 import Container from "../../components/Container";
@@ -106,11 +111,19 @@ class Content extends Component {
         <Mutation mutation={CREATE_KUDO}>
           {(createKudo, { loading, error, data }) => (
             <div className={classes.buttonContainer}>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
               <Button
                 size="large"
                 color="secondary"
                 variant="outlined"
-                className={`${classes.button}`}
+                className={`${classes.button} ${
+                  data ? classes.buttonSuccess : ""
+                }`}
                 disabled={loading}
                 onClick={e => {
                   createKudo({
@@ -123,14 +136,38 @@ class Content extends Component {
                   });
                 }}
               >
-                share
-                <ShareIcon className={classes.icon} />
+                {!data ? (!loading ? "save" : "saving") : "saved"}
+                {!data ? (
+                  !loading ? (
+                    <CloudUploadIcon className={classes.icon} />
+                  ) : (
+                    <CloudQueueIcon className={classes.icon} />
+                  )
+                ) : (
+                  <CloudDoneIcon className={classes.icon} />
+                )}
               </Button>
-              {loading && (
-                <CircularProgress
-                  size={24}
-                  className={classes.buttonProgress}
-                />
+              {data && (
+                <Typography
+                  style={{
+                    textAlign: "center",
+                    width: "80%",
+                    margin: "0 auto"
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    value={data.createKudo.imgUrl}
+                    InputProps={{
+                      readOnly: true,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <ShareIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Typography>
               )}
             </div>
           )}
