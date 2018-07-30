@@ -61,14 +61,14 @@ class ServiceWorkerNotifications extends Component {
           }}
           open={this.state.isContentAvailable}
           onClose={this.closeContentAvailableMsg}
-          message={"New version is available; please refresh."}
+          message={"New version is available; please update."}
           action={
             <Button
               color="secondary"
               size="small"
               onClick={() => window.location.reload(true)}
             >
-              REFRESH
+              UPDATE
             </Button>
           }
         />
