@@ -12,22 +12,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FaceIcon from "@material-ui/icons/TagFaces";
 import Typography from "@material-ui/core/Typography";
 
+import styles from "./styles";
 import Twemoji from "../Twemoji";
-
-const styles = {
-  root: {
-    marginRight: 20
-  },
-  feedback: {
-    padding: 30
-  },
-  controls: {
-    marginTop: 10,
-    display: "flex",
-    flexGrow: 1,
-    justifyContent: "space-between"
-  }
-};
 
 const SUBMIT_FEEDBACK = gql`
   mutation createFeedback($message: String!, $rating: Rating!) {
@@ -67,8 +53,8 @@ class Feedback extends Component {
       <div className={classes.root}>
         <Button
           size="medium"
-          color="secondary"
           variant="outlined"
+          className={classes.feedbackTrigger}
           aria-describedby={"feedback"}
           onClick={this.handleClick}
         >
@@ -125,7 +111,7 @@ class Feedback extends Component {
                     <Mutation mutation={SUBMIT_FEEDBACK}>
                       {createFeedback => (
                         <Button
-                          color="secondary"
+                          color="default"
                           variant="outlined"
                           disabled={!message}
                           onClick={event => {

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import Drawer from "@material-ui/core/Drawer";
+// import Drawer from "@material-ui/core/Drawer";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -50,7 +51,12 @@ class Header extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Drawer open={open} onClose={this.close}>
+            <SwipeableDrawer
+              open={open}
+              variant="temporary"
+              ModalProps={{ keepMounted: true }}
+              onClose={this.close}
+            >
               <div
                 tabIndex={0}
                 role="button"
@@ -74,7 +80,7 @@ class Header extends Component {
                   </ListItem>
                 </List>
               </div>
-            </Drawer>
+            </SwipeableDrawer>
 
             <IconButton
               color="inherit"
