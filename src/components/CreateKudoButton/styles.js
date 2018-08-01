@@ -40,5 +40,10 @@ export default theme => ({
   icon: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
+  },
+  shareableLink: {
+    textAlign: "center",
+    width: "80%",
+    margin: "0 auto"
   }
 });

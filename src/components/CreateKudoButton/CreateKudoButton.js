@@ -71,13 +71,7 @@ const CreateKudoButton = ({
           )}
         </Button>
         {data && (
-          <div
-            style={{
-              textAlign: "center",
-              width: "80%",
-              margin: "0 auto"
-            }}
-          >
+          <div className={classes.shareableLink}>
             <TextField
               fullWidth
               value={data.createKudo.imgUrl}

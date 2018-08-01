@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-// import Drawer from "@material-ui/core/Drawer";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -39,9 +38,9 @@ class Header extends Component {
     open: false
   };
 
-  open = () => this.setState({ open: true });
+  handleOpen = () => this.setState({ open: true });
 
-  close = () => this.setState({ open: false });
+  handleClose = () => this.setState({ open: false });
 
   render() {
     const { classes } = this.props;
@@ -52,10 +51,11 @@ class Header extends Component {
         <AppBar position="static">
           <Toolbar>
             <SwipeableDrawer
-              open={open}
               variant="temporary"
               ModalProps={{ keepMounted: true }}
-              onClose={this.close}
+              open={open}
+              onOpen={this.handleOpen}
+              onClose={this.handleClose}
             >
               <div
                 tabIndex={0}
@@ -86,7 +86,7 @@ class Header extends Component {
               color="inherit"
               aria-label="Menu"
               className={classes.menuButton}
-              onClick={this.open}
+              onClick={this.handleOpen}
             >
               <MenuIcon />
             </IconButton>
