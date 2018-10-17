@@ -48,16 +48,13 @@ export default theme => ({
     maxWidth: "100%",
     height: 130,
     maxHeight: "100%",
-    // padding: "2px 10px",
     border: 0,
     outline: 0,
     background: "transparent",
-    // fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
     fontSize: 14,
     lineHeight: "16px",
     boxSizing: "border-box",
     textAlign: "center",
-    // zIndex: 1,
     resize: "none",
     fontFamily: "'Permanent Marker', cursive"
   }

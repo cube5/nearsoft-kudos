@@ -1,3 +1,4 @@
+import "typeface-roboto";
 import React, { Fragment } from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
@@ -19,7 +20,8 @@ const client = new ApolloClient({
 const theme = createMuiTheme({
   palette: {
     type: "light"
-  }
+  },
+  typography: { useNextVariants: true }
 });
 
 const AsyncHome = Loadable({

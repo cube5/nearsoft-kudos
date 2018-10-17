@@ -83,7 +83,7 @@ class Home extends Component {
         <Grid container spacing={24} justify={"space-around"}>
           <Grid item>
             <Fragment>
-              <Typography variant="display2" gutterBottom>
+              <Typography variant="h2" gutterBottom>
                 Kudo
               </Typography>
               <Paper>
@@ -93,7 +93,7 @@ class Home extends Component {
           </Grid>
           <Grid item>
             <Fragment>
-              <Typography variant="display2" gutterBottom>
+              <Typography variant="h2" gutterBottom>
                 Preview
                 {loadingPreview && <CircularProgress color="secondary" />}
               </Typography>

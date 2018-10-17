@@ -111,7 +111,8 @@ class Kudos extends Component {
                     Sorry an error just happend, please try again
                     <span role="img" aria-label="sad face">
                       😢
-                    </span>.
+                    </span>
+                    .
                   </Typography>
                 );
               }
@@ -125,7 +126,7 @@ class Kudos extends Component {
                 >
                   <Grid item md={6} sm={12}>
                     <Fragment>
-                      <Typography variant="display2" gutterBottom>
+                      <Typography variant="h2" gutterBottom>
                         Kudos
                       </Typography>
                       <Grid
@@ -139,7 +140,7 @@ class Kudos extends Component {
                         }}
                       >
                         {data.kudos.length === 0 && (
-                          <Typography variant="subheading" gutterBottom>
+                          <Typography variant="subtitle1" gutterBottom>
                             No kudos found :/
                           </Typography>
                         )}
@@ -200,7 +201,7 @@ class Kudos extends Component {
                   </Grid>
                   <Grid item md={6} sm={6}>
                     <Fragment>
-                      <Typography variant="display2" gutterBottom>
+                      <Typography variant="h2" gutterBottom>
                         Print Preview
                       </Typography>
                       <EmbededPdf src={pdfUri} />
