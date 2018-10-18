@@ -1,36 +1,19 @@
 import "typeface-permanent-marker";
 import React, { Component, createRef, Fragment } from "react";
 import PropTypes from "prop-types";
-import gql from "graphql-tag";
 import domtoimage from "dom-to-image-chrome-fix-retina"; // custom fork from dom-to-image-chrome-fix
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import styles from "./styles";
 import Container from "../../components/Container";
 import Kudo from "../../components/Kudo";
 import CreateKudoButton from "../../components/CreateKudoButton";
-
-export const CREATE_KUDO = gql`
-  mutation createKudo(
-    $from: String!
-    $to: String!
-    $message: String!
-    $imgUrl: String!
-  ) {
-    createKudo(from: $from, to: $to, message: $message, imgUrl: $imgUrl) {
-      _id
-      from
-      to
-      message
-      imgUrl
-      createdAt
-    }
-  }
-`;
 
 class Home extends Component {
   static propTypes = {
@@ -46,12 +29,12 @@ class Home extends Component {
     to: "",
     message: "",
     imgUrl: "",
-    loadingPreview: true
+    snackbarMessage: ""
   };
 
   async componentDidMount() {
     const imgUrl = await this.getImgUrl();
-    this.setState({ imgUrl, loadingPreview: false });
+    this.setState({ imgUrl });
   }
 
   getImgUrl = async () => {
@@ -60,23 +43,42 @@ class Home extends Component {
       const imgUrl = await domtoimage.toPng(node);
       return imgUrl;
     } catch (err) {
-      console.error("wtf, something went wrong getting the img src!", err);
+      console.error("Something went wrong getting the img src!", err);
     }
   };
 
   updatePreview = (e, data) => {
     clearTimeout(this.onChangeTimeoutId);
-    this.setState({ loadingPreview: true });
     this.onChangeTimeoutId = setTimeout(async () => {
       const imgUrl = await this.getImgUrl();
       const { from, to, message } = data;
-      this.setState({ from, to, message, imgUrl, loadingPreview: false });
+      this.setState({ from, to, message, imgUrl });
     }, 500);
+  };
+
+  validate = () => {
+    const { message } = this.state;
+    if (!message) {
+      this.setState({
+        snackbarMessage: `Please fill message field.`
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ snackbarMessage: "" });
   };
 
   render() {
     const { classes } = this.props;
-    const { from, to, message, imgUrl, loadingPreview } = this.state;
+    const { from, to, message, imgUrl, snackbarMessage } = this.state;
 
     return (
       <Container>
@@ -95,8 +97,8 @@ class Home extends Component {
             <Fragment>
               <Typography variant="h2" gutterBottom>
                 Preview
-                {loadingPreview && <CircularProgress color="secondary" />}
               </Typography>
+
               <Paper>
                 <div className={classes.previewContainer}>
                   <img src={imgUrl} alt="preview" width="100%" />
@@ -106,12 +108,35 @@ class Home extends Component {
           </Grid>
         </Grid>
         <CreateKudoButton
+          onValidate={this.validate}
           variables={{
             from,
             to,
             message,
             imgUrl
           }}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={!!snackbarMessage}
+          onClose={this.handleSnackbarClose}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={<span id="message-id">{snackbarMessage}</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleSnackbarClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
         />
       </Container>
     );

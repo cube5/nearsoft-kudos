@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
@@ -14,15 +13,7 @@ import Typography from "@material-ui/core/Typography";
 
 import styles from "./styles";
 import Twemoji from "../Twemoji";
-
-const SUBMIT_FEEDBACK = gql`
-  mutation createFeedback($message: String!, $rating: Rating!) {
-    createFeedback(message: $message, rating: $rating) {
-      message
-      rating
-    }
-  }
-`;
+import CREATE_FEEDBACK from "../../graphql/mutations/CREATE_FEEDBACK";
 
 class Feedback extends Component {
   state = {
@@ -108,7 +99,7 @@ class Feedback extends Component {
                         <Twemoji emoji={"🤮"} />
                       </MenuItem>
                     </Select>
-                    <Mutation mutation={SUBMIT_FEEDBACK}>
+                    <Mutation mutation={CREATE_FEEDBACK}>
                       {createFeedback => (
                         <Button
                           color="default"

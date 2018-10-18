@@ -23,7 +23,7 @@ const mocks = [
     result: {
       data: {
         createKudo: {
-          _id: "1",
+          id: "1",
           createdAt: new Date(),
           ...kudoMock
         }

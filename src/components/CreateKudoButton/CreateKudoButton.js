@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import Button from "@material-ui/core/Button";
 import CloudQueueIcon from "@material-ui/icons/CloudQueue";
@@ -13,27 +12,11 @@ import ShareIcon from "@material-ui/icons/Share";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import styles from "./styles";
-
-export const CREATE_KUDO = gql`
-  mutation createKudo(
-    $from: String!
-    $to: String!
-    $message: String!
-    $imgUrl: String!
-  ) {
-    createKudo(from: $from, to: $to, message: $message, imgUrl: $imgUrl) {
-      _id
-      from
-      to
-      message
-      imgUrl
-      createdAt
-    }
-  }
-`;
+import CREATE_KUDO from "../../graphql/mutations/CREATE_KUDO";
 
 const CreateKudoButton = ({
   classes,
+  onValidate,
   variables: { from, to, message, imgUrl }
 }) => (
   <Mutation mutation={CREATE_KUDO}>
@@ -49,14 +32,20 @@ const CreateKudoButton = ({
           className={`${classes.button} ${data ? classes.buttonSuccess : ""}`}
           disabled={loading}
           onClick={e => {
-            createKudo({
-              variables: {
-                from,
-                to,
-                message,
-                imgUrl
-              }
-            });
+            if (onValidate()) {
+              createKudo({
+                variables: {
+                  from,
+                  to,
+                  message,
+                  imgUrl,
+                  status:
+                    process.env.NODE_ENV === "development"
+                      ? "DRAFT"
+                      : "PUBLISHED"
+                }
+              });
+            }
           }}
         >
           {!data ? (!loading ? "save" : "saving") : "saved"}
@@ -93,12 +82,17 @@ const CreateKudoButton = ({
 
 CreateKudoButton.propTypes = {
   classes: PropTypes.object.isRequired,
+  onValidate: PropTypes.func.isRequired,
   variables: PropTypes.shape({
     from: PropTypes.string,
     to: PropTypes.string,
     message: PropTypes.string,
     imgUrl: PropTypes.string
   }).isRequired
+};
+
+CreateKudoButton.defaultProps = {
+  onValidate: () => true
 };
 
 export default withStyles(styles)(CreateKudoButton);

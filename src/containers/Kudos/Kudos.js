@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import dayjs from "dayjs";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import AddIcon from "@material-ui/icons/AddCircleOutline";
@@ -14,19 +13,7 @@ import styles from "./styles";
 import Container from "../../components/Container";
 import EmbededPdf from "../../components/EmbededPdf";
 import { realWorldKudoHeight, realWorldKudoWidth } from "../../constants";
-
-const query = gql`
-  {
-    kudos {
-      _id
-      from
-      to
-      message
-      imgUrl
-      createdAt
-    }
-  }
-`;
+import KUDOS from "../../graphql/queries/KUDOS";
 
 class Kudos extends Component {
   currentX = 0; // x coordinate to put the next kudo in the pdf.
@@ -47,14 +34,14 @@ class Kudos extends Component {
     this.setState(state => {
       const { kudosToPrint } = state;
 
-      if (kudosToPrint.includes(kudo._id)) {
+      if (kudosToPrint.includes(kudo.id)) {
         state.kudosToPrint = [];
         this.currentKudosInRow = 0;
         this.currentKudosInPage = 0;
         this.pdfDoc = new jsPDF("landscape");
         return state;
       } else {
-        kudosToPrint.push(kudo._id);
+        kudosToPrint.push(kudo.id);
 
         const isCurrentRowFull = this.currentKudosInRow >= this.maxKudosPerRow;
         const isCurrentPageFull =
@@ -101,7 +88,7 @@ class Kudos extends Component {
     return (
       <div className={classes.root}>
         <Container>
-          <Query query={query}>
+          <Query query={KUDOS}>
             {({ loading, error, data }) => {
               if (loading) return <CircularProgress />;
 
@@ -139,16 +126,16 @@ class Kudos extends Component {
                           width: "100%"
                         }}
                       >
-                        {data.kudos.length === 0 && (
+                        {data.kudoes.length === 0 && (
                           <Typography variant="subtitle1" gutterBottom>
                             No kudos found :/
                           </Typography>
                         )}
 
-                        {data.kudos.map(
+                        {data.kudoes.map(
                           kudo =>
                             kudo.imgUrl && (
-                              <Grid key={kudo._id} item sm={4} xs={6}>
+                              <Grid key={kudo.id} item sm={4} xs={6}>
                                 <ButtonBase
                                   className={classes.imageButton}
                                   onClick={e =>
@@ -164,10 +151,10 @@ class Kudos extends Component {
                                   <span className={classes.imageBackdrop} />
 
                                   <div className={classes.meta}>
-                                    {kudosToPrint.includes(kudo._id) ? (
+                                    {kudosToPrint.includes(kudo.id) ? (
                                       <div className={classes.iconClicked}>
                                         {kudosToPrint.findIndex(
-                                          id => kudo._id === id
+                                          id => kudo.id === id
                                         ) + 1}
                                       </div>
                                     ) : (
