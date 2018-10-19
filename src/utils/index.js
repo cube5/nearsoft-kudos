@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 /**
  * @see https://material-ui.com/customization/css-in-js/#render-props-api-11-lines-

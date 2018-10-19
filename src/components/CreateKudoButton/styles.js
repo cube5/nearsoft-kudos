@@ -33,8 +33,10 @@ export default theme => ({
   buttonSuccess: {
     color: "#fff",
     backgroundColor: green[500],
+    border: green.A400,
     "&:hover": {
-      backgroundColor: green[700]
+      backgroundColor: green[700],
+      border: green.A700
     }
   },
   icon: {

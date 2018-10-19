@@ -5,24 +5,24 @@ export default gql`
     $from: String!
     $to: String!
     $message: String!
-    $imgUrl: String!
     $status: Status!
+    $imgUrl: String!
   ) {
     createKudo(
       data: {
         from: $from
         to: $to
         message: $message
-        imgUrl: $imgUrl
         status: $status
+        imgUrl: $imgUrl
       }
     ) {
       id
       from
       to
       message
-      imgUrl
       createdAt
+      imgUrl
     }
   }
 `;

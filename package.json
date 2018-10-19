@@ -31,18 +31,23 @@
     "deploy": "now --public --name nearsoft-kudos ./build",
     "predeploy": "GENERATE_SOURCEMAP=false npm run build",
     "postdeploy": "now alias nearsoft-kudos",
-    "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook": "start-storybook -p 9009 -s public",
     "dependencies:check": "npx npm-check",
     "dependencies:update": "npx npm-check -u",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/react": "^3.4.11",
     "now": "^11.4.6",
     "react-test-renderer": "^16.5.2",
     "react-testing-library": "^5.2.0",
-    "release": "^4.0.2"
+    "release": "^4.0.2",
+    "@storybook/react": "^4.0.0-rc.1",
+    "@storybook/addon-actions": "^4.0.0-rc.1",
+    "@storybook/addon-links": "^4.0.0-rc.1",
+    "@storybook/addons": "^4.0.0-rc.1",
+    "@babel/core": "^7.1.2",
+    "babel-loader": "^8.0.4"
   },
   "browserslist": [
     ">0.2%",

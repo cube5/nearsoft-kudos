@@ -38,11 +38,11 @@ const CreateKudoButton = ({
                   from,
                   to,
                   message,
-                  imgUrl,
                   status:
                     process.env.NODE_ENV === "development"
                       ? "DRAFT"
-                      : "PUBLISHED"
+                      : "PUBLISHED",
+                  imgUrl
                 }
               });
             }

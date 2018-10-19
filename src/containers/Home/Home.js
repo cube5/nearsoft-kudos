@@ -1,4 +1,3 @@
-import "typeface-permanent-marker";
 import React, { Component, createRef, Fragment } from "react";
 import PropTypes from "prop-types";
 import domtoimage from "dom-to-image-chrome-fix-retina"; // custom fork from dom-to-image-chrome-fix
@@ -13,6 +12,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles";
 import Container from "../../components/Container";
 import Kudo from "../../components/Kudo";
+import KudoPreview from "../../components/Kudo/preview";
 import CreateKudoButton from "../../components/CreateKudoButton";
 
 class Home extends Component {
@@ -53,7 +53,7 @@ class Home extends Component {
       const imgUrl = await this.getImgUrl();
       const { from, to, message } = data;
       this.setState({ from, to, message, imgUrl });
-    }, 500);
+    }, 300);
   };
 
   validate = () => {
@@ -77,7 +77,6 @@ class Home extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { from, to, message, imgUrl, snackbarMessage } = this.state;
 
     return (
@@ -98,11 +97,8 @@ class Home extends Component {
               <Typography variant="h2" gutterBottom>
                 Preview
               </Typography>
-
               <Paper>
-                <div className={classes.previewContainer}>
-                  <img src={imgUrl} alt="preview" width="100%" />
-                </div>
+                <KudoPreview imgUrl={imgUrl} />
               </Paper>
             </Fragment>
           </Grid>
@@ -124,9 +120,9 @@ class Home extends Component {
           open={!!snackbarMessage}
           onClose={this.handleSnackbarClose}
           ContentProps={{
-            "aria-describedby": "message-id"
+            "aria-describedby": "notification-message"
           }}
-          message={<span id="message-id">{snackbarMessage}</span>}
+          message={<span id="notification-message">{snackbarMessage}</span>}
           action={[
             <IconButton
               key="close"
