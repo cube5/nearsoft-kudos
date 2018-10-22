@@ -7,12 +7,10 @@ import AddIcon from "@material-ui/icons/AddCircleOutline";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-import jsPDF from "jspdf";
 
 import styles from "./styles";
 import Container from "../../components/Container";
-import EmbededPdf from "../../components/EmbededPdf";
-import { realWorldKudoHeight, realWorldKudoWidth } from "../../constants";
+import PDFPreview from "../../components/PDFPreview";
 import KUDOS from "../../graphql/queries/KUDOS";
 
 class Kudos extends Component {
@@ -27,63 +25,38 @@ class Kudos extends Component {
 
   state = {
     pdfUri: this.pdfDoc.output("bloburi"),
-    kudosToPrint: [] // ids only.
+    kudosToPrint: [], // { id: string, src: string }
+    loadingPreview: false
   };
 
   handleAddToPrintClick = (e, kudo) => {
-    this.setState(state => {
-      const { kudosToPrint } = state;
-
-      if (kudosToPrint.includes(kudo.id)) {
-        state.kudosToPrint = [];
-        this.currentKudosInRow = 0;
-        this.currentKudosInPage = 0;
-        this.pdfDoc = new jsPDF("landscape");
-        return state;
-      } else {
-        kudosToPrint.push(kudo.id);
-
-        const isCurrentRowFull = this.currentKudosInRow >= this.maxKudosPerRow;
-        const isCurrentPageFull =
-          this.currentKudosInPage >= this.maxKudosPerPage;
-
-        if (isCurrentRowFull) {
-          this.currentKudosInRow = 0;
-        }
-
-        if (isCurrentPageFull) {
-          this.pdfDoc.addPage();
-          this.currentKudosInRow = 0;
-          this.currentKudosInPage = 0;
-        }
-
-        const isFirstRow = this.currentKudosInPage < this.maxKudosPerRow;
-
-        this.currentX = realWorldKudoWidth * this.currentKudosInRow;
-        this.currentY = isFirstRow ? 0 : realWorldKudoHeight;
-
-        this.pdfDoc.addImage(
-          kudo.imgUrl,
-          "PNG",
-          this.currentX,
-          this.currentY,
-          realWorldKudoWidth,
-          realWorldKudoHeight
+    this.setState(
+      state => {
+        const id = kudo.id;
+        const kudoIndex = state.kudosToPrint.findIndex(
+          kudoToPrint => kudoToPrint.id === id
         );
+        if (kudoIndex !== -1) {
+          return {
+            loadingPreview: true,
+            kudosToPrint: state.kudosToPrint.filter(
+              (kudoToPrint, index) => index !== kudoIndex
+            )
+          };
+        }
 
-        state.pdfUri = this.pdfDoc.output("bloburi");
-
-        this.currentKudosInRow++;
-        this.currentKudosInPage++;
-
-        return state;
-      }
-    });
+        return {
+          loadingPreview: true,
+          kudosToPrint: state.kudosToPrint.concat({ id, src: kudo.imgUrl })
+        };
+      },
+      () => this.setState({ loadingPreview: false })
+    );
   };
 
   render() {
     const { classes } = this.props;
-    const { kudosToPrint, pdfUri } = this.state;
+    const { kudosToPrint, loadingPreview } = this.state;
 
     return (
       <div className={classes.root}>
@@ -151,10 +124,13 @@ class Kudos extends Component {
                                   <span className={classes.imageBackdrop} />
 
                                   <div className={classes.meta}>
-                                    {kudosToPrint.includes(kudo.id) ? (
+                                    {kudosToPrint.findIndex(
+                                      kudoToPrint => kudo.id === kudoToPrint.id
+                                    ) !== -1 ? (
                                       <div className={classes.iconClicked}>
                                         {kudosToPrint.findIndex(
-                                          id => kudo.id === id
+                                          kudoToPrint =>
+                                            kudo.id === kudoToPrint.id
                                         ) + 1}
                                       </div>
                                     ) : (
@@ -191,7 +167,11 @@ class Kudos extends Component {
                       <Typography variant="h2" gutterBottom>
                         Print Preview
                       </Typography>
-                      <EmbededPdf src={pdfUri} />
+                      {loadingPreview ? (
+                        <CircularProgress size={24} />
+                      ) : (
+                        <PDFPreview images={kudosToPrint} />
+                      )}
                     </Fragment>
                   </Grid>
                 </Grid>
