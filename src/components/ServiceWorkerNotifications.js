@@ -43,7 +43,14 @@ class ServiceWorkerNotifications extends Component {
           open={this.state.isContentCached}
           autoHideDuration={5000}
           onClose={this.closeContentCachedMsg}
-          message={"Content is cached for offline use."}
+          ContentProps={{
+            "aria-describedby": "notification-message"
+          }}
+          message={
+            <span id="notification-message">
+              Content is cached for offline use.
+            </span>
+          }
           action={
             <Button
               color="secondary"
@@ -61,7 +68,14 @@ class ServiceWorkerNotifications extends Component {
           }}
           open={this.state.isContentAvailable}
           onClose={this.closeContentAvailableMsg}
-          message={"New version is available; please update."}
+          ContentProps={{
+            "aria-describedby": "notification-message"
+          }}
+          message={
+            <span id="notification-message">
+              New version is available; please update.
+            </span>
+          }
           action={
             <Button
               color="secondary"

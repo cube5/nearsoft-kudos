@@ -12,7 +12,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles";
 import Container from "../../components/Container";
 import Kudo from "../../components/Kudo";
-import KudoPreview from "../../components/Kudo/preview";
+import KudoPreview from "../../components/Kudo/KudoPreview";
 import CreateKudoButton from "../../components/CreateKudoButton";
 
 class Home extends Component {
@@ -28,6 +28,7 @@ class Home extends Component {
     from: "",
     to: "",
     message: "",
+    location: "",
     imgUrl: "",
     snackbarMessage: ""
   };
@@ -47,20 +48,20 @@ class Home extends Component {
     }
   };
 
-  updatePreview = (e, data) => {
+  handleKudoChange = (e, data) => {
     clearTimeout(this.onChangeTimeoutId);
     this.onChangeTimeoutId = setTimeout(async () => {
       const imgUrl = await this.getImgUrl();
-      const { from, to, message } = data;
-      this.setState({ from, to, message, imgUrl });
+      const { from, to, message, location } = data;
+      this.setState({ from, to, message, location, imgUrl });
     }, 300);
   };
 
-  validate = () => {
-    const { message } = this.state;
-    if (!message) {
+  handleValidate = () => {
+    const { message, location } = this.state;
+    if (!message || !location) {
       this.setState({
-        snackbarMessage: `Please fill message field.`
+        snackbarMessage: `Please fill the message and location fields.`
       });
       return false;
     }
@@ -77,7 +78,7 @@ class Home extends Component {
   };
 
   render() {
-    const { from, to, message, imgUrl, snackbarMessage } = this.state;
+    const { from, to, message, location, imgUrl, snackbarMessage } = this.state;
 
     return (
       <Container>
@@ -88,7 +89,7 @@ class Home extends Component {
                 Kudo
               </Typography>
               <Paper>
-                <Kudo innerRef={this.$kudo} onChange={this.updatePreview} />
+                <Kudo innerRef={this.$kudo} onChange={this.handleKudoChange} />
               </Paper>
             </Fragment>
           </Grid>
@@ -104,11 +105,12 @@ class Home extends Component {
           </Grid>
         </Grid>
         <CreateKudoButton
-          onValidate={this.validate}
+          onValidate={this.handleValidate}
           variables={{
             from,
             to,
             message,
+            location,
             imgUrl
           }}
         />

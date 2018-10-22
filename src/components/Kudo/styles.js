@@ -18,6 +18,17 @@ export default theme => ({
     background: `url(${kudoBackgroundImage}) 0px -22px repeat-y`,
     backgroundSize: "cover"
   },
+  locationContainer: {
+    position: "absolute",
+    top: "5px",
+    left: "10px"
+  },
+  location: {
+    ...unstyledInput,
+    textAlign: "left",
+    fontSize: 16,
+    textDecoration: "none"
+  },
   paperContainer: {
     position: "relative",
     width: "100%",

@@ -19,7 +19,8 @@ class Kudo extends Component {
   state = {
     from: "",
     to: "",
-    message: ""
+    message: "",
+    location: ""
   };
 
   handleChange = e => {
@@ -30,8 +31,8 @@ class Kudo extends Component {
       },
       () => {
         if (typeof this.props.onChange === "function") {
-          const { from, to, message } = this.state;
-          const data = { from, to, message };
+          const { from, to, message, location } = this.state;
+          const data = { from, to, message, location };
           this.props.onChange(e, data);
         }
       }
@@ -39,13 +40,23 @@ class Kudo extends Component {
   };
 
   render() {
-    const { innerRef, from, to, message } = this.props;
+    const { innerRef, from, to, message, location } = this.props;
 
     return (
       <Styled>
         {({ classes }) => (
           <div ref={innerRef} className={classes.root}>
             <div className={classes.paperContainer}>
+              <div className={classes.locationContainer}>
+                <input
+                  type="text"
+                  name="location"
+                  value={location}
+                  placeholder="(CMDX, HMO or CUU)"
+                  className={classes.location}
+                  onChange={this.handleChange}
+                />
+              </div>
               <div className={classes.messageContainer}>
                 <input
                   type="text"

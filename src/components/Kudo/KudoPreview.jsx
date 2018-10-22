@@ -11,10 +11,10 @@ const styles = {
   }
 };
 
-const Preview = ({ classes, imgUrl }) => (
+const KudoPreview = ({ classes, imgUrl }) => (
   <div className={classes.previewContainer}>
     <img src={imgUrl} alt="kudo preview" width="100%" />
   </div>
 );
 
-export default withStyles(styles)(Preview);
+export default withStyles(styles)(KudoPreview);

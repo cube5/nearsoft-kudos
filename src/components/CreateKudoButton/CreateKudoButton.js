@@ -17,7 +17,7 @@ import CREATE_KUDO from "../../graphql/mutations/CREATE_KUDO";
 const CreateKudoButton = ({
   classes,
   onValidate,
-  variables: { from, to, message, imgUrl }
+  variables: { from, to, message, location, imgUrl }
 }) => (
   <Mutation mutation={CREATE_KUDO}>
     {(createKudo, { loading, error, data }) => (
@@ -38,10 +38,7 @@ const CreateKudoButton = ({
                   from,
                   to,
                   message,
-                  status:
-                    process.env.NODE_ENV === "development"
-                      ? "DRAFT"
-                      : "PUBLISHED",
+                  location,
                   imgUrl
                 }
               });
@@ -87,6 +84,7 @@ CreateKudoButton.propTypes = {
     from: PropTypes.string,
     to: PropTypes.string,
     message: PropTypes.string,
+    location: PropTypes.string,
     imgUrl: PropTypes.string
   }).isRequired
 };

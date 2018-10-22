@@ -1,11 +1,13 @@
 import gql from "graphql-tag";
 
+const STATUS = process.env.NODE_ENV === "development" ? "DRAFT" : "PUBLISHED";
+
 export default gql`
   mutation createKudo(
     $from: String!
     $to: String!
     $message: String!
-    $status: Status!
+    $location: OfficeLocation!
     $imgUrl: String!
   ) {
     createKudo(
@@ -13,7 +15,8 @@ export default gql`
         from: $from
         to: $to
         message: $message
-        status: $status
+        location: $location
+        status: ${STATUS}
         imgUrl: $imgUrl
       }
     ) {
@@ -21,6 +24,7 @@ export default gql`
       from
       to
       message
+      location
       createdAt
       imgUrl
     }
