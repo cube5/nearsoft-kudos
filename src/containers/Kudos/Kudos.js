@@ -4,16 +4,20 @@ import { Query } from "react-apollo";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import AddIcon from "@material-ui/icons/AddCircleOutline";
+import ArrowRightIcon from "@material-ui/icons/ArrowRightAlt";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import jsPDF from "jspdf";
 
 import styles from "./styles";
 import Container from "../../components/Container";
+import SearchBar from "../../components/SearchBar";
 import EmbededPdf from "../../components/EmbededPdf";
 import { realWorldKudoHeight, realWorldKudoWidth } from "../../constants";
 import KUDOS from "../../graphql/queries/KUDOS";
+import { ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
 
 class Kudos extends Component {
   currentX = 0; // x coordinate to put the next kudo in the pdf.
@@ -27,7 +31,9 @@ class Kudos extends Component {
 
   state = {
     pdfUri: this.pdfDoc.output("bloburi"),
-    kudosToPrint: [] // ids only.
+    kudosToPrint: [], // ids only.
+    showAdvancedSearch: false,
+    filter: ""
   };
 
   handleAddToPrintClick = (e, kudo) => {
@@ -81,14 +87,19 @@ class Kudos extends Component {
     });
   };
 
+  toggleAdvancedSearch = e => {
+    e.preventDefault();
+    this.setState(state => ({ showAdvancedSearch: !state.showAdvancedSearch }));
+  };
+
   render() {
     const { classes } = this.props;
-    const { kudosToPrint, pdfUri } = this.state;
+    const { kudosToPrint, pdfUri, filter, showAdvancedSearch } = this.state;
 
     return (
       <div className={classes.root}>
         <Container>
-          <Query query={KUDOS}>
+          <Query query={KUDOS} variables={{ filter: filter }}>
             {({ loading, error, data }) => {
               if (loading) return <CircularProgress />;
 
@@ -112,10 +123,57 @@ class Kudos extends Component {
                   className={classes.grid}
                 >
                   <Grid item md={6} sm={12}>
+                    <div className={classes.searchContainer}>
+                      <div className={classes.searchBarContainer}>
+                        <SearchBar />
+                        {/*<Typography variant="caption">
+                          <a
+                            href="javascript:void(0)"
+                            style={{
+                              color: "inherit",
+                              verticalAlign: "middle"
+                            }}
+                            onClick={this.toggleAdvancedSearch}
+                          >
+                            {showAdvancedSearch ? (
+                              <ArrowDropUp
+                                style={{ verticalAlign: "middle" }}
+                              />
+                            ) : (
+                              <ArrowDropDown
+                                style={{ verticalAlign: "middle" }}
+                              />
+                            )}
+                            Toggle advanced search
+                          </a>
+                            </Typography>*/}
+                      </div>
+                      {/*showAdvancedSearch ? (
+                        <div className={classes.searchDateRange}>
+                          <TextField
+                            id="date"
+                            label="Begin"
+                            type="date"
+                            defaultValue={dayjs(new Date()).format(
+                              "YYYY-MM-DD"
+                            )}
+                            InputLabelProps={{
+                              shrink: true
+                            }}
+                          />
+                          <ArrowRightIcon />
+                          <TextField
+                            id="date"
+                            label="End"
+                            type="date"
+                            InputLabelProps={{
+                              shrink: true
+                            }}
+                          />
+                        </div>
+                          ) : null*/}
+                    </div>
                     <Fragment>
-                      <Typography variant="h2" gutterBottom>
-                        Kudos
-                      </Typography>
                       <Grid
                         container
                         spacing={8}
@@ -188,9 +246,6 @@ class Kudos extends Component {
                   </Grid>
                   <Grid item md={6} sm={6}>
                     <Fragment>
-                      <Typography variant="h2" gutterBottom>
-                        Print Preview
-                      </Typography>
                       <EmbededPdf src={pdfUri} />
                     </Fragment>
                   </Grid>

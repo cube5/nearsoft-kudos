@@ -4,6 +4,17 @@ export default theme => ({
   root: {
     flexGrow: 1
   },
+  searchContainer: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  searchBarContainer: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  searchDateRange: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
   grid: {
     minHeight: "80vh"
   },
